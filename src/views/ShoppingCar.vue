@@ -21,7 +21,7 @@
             <tr>
               <td>
                 <div class="all_checked">
-                  <input type="checkbox" @click="checkAll" v-model="all_checked" />全选
+                  <input type="checkbox" @click="checkAll" v-model="all_checked" />&nbsp;&nbsp;全选
                 </div>
               </td>
               <td></td>
@@ -39,7 +39,6 @@
                 <input type="checkbox" v-model="checkeds[index]" />
               </td>
               <td class="goods-imgs">
-
                 <a href="#">
                   <img src alt="goods" />
                 </a>
@@ -51,15 +50,20 @@
                   <div @click=" item.count > 1 ? item.count-- : item.count =1">-</div>
                   <input
                     type="text"
-                    size="2"
+                    size="4"
                     v-model="item.count"
                     @blur="numTypeCheck(item.count, item.id)"
                   />
                   <div @click=" item.count++ ">+</div>
                 </div>
               </td>
-      
-              <td class="subtotal">{{ typeof item.count === "number" ? item.count * item.price : item.price}}</td>
+
+              <td class="subtotal">
+                {{
+                /^[0-9]{1,6}$/.test(parseInt(item.count * item.price))
+                ? item.count * item.price
+                : 0 }}
+              </td>
               <td>
                 <a href="#" @click.prevent="del(item.id)" class="delete" title="删除">
                   <span>×</span>
@@ -68,14 +72,14 @@
             </tr>
           </tbody>
         </table>
-        <div class="compute-footer">
+        <div class="compute-footer" :class="{computeFooterFixed: isFixed}" ref="computeFooter">
           <div class="section-left">
-            <a href="#">继续购物</a> |
-            <span>
+            <a href="#">继续购物</a>
+            <span class="line-before">
               共
               <b>{{ subtotal }}</b>
             </span>
-            <span>&nbsp; 件商品,</span>
+            <span>&nbsp;件商品,</span>
             <span>
               已选择
               <b>{{ count }}</b>
@@ -113,8 +117,16 @@ export default {
       ],
       checkeds: [],
       all_checked: false,
-      reg: /^[0-9]{1,4}$/
+      reg: /^[0-9]{1,6}$/,
+      scrollTop: null,
+      isFixed: false
     };
+  },
+  mounted() {
+    window.addEventListener("scroll", this.handleScroll, true);
+  },
+  destroyed() {
+    window.removeEventListener("scroll", this.handleScroll); // 离开页面移除事件监听，否则报错
   },
   computed: {
     sum() {
@@ -124,7 +136,7 @@ export default {
           //如果checkeds[i]的结果为true，则进行累加
           sum += parseInt(this.list[i].price) * parseInt(this.list[i].count);
       }
-      return sum
+      return sum;
     },
 
     count() {
@@ -134,20 +146,18 @@ export default {
           count += parseInt(this.list[i].count);
         }
       }
-      return count
+      return count;
     },
 
     subtotal() {
       let subtotal = 0;
       for (let i in this.list) {
-        if (this.reg.test(this.list[i].count)){
-        subtotal += parseInt(this.list[i].count);
+        if (this.reg.test(this.list[i].count)) {
+          subtotal += parseInt(this.list[i].count);
         }
       }
-      return subtotal
+      return subtotal;
     }
-    // goodsPrice() {
-    // }
   },
   methods: {
     checkAll() {
@@ -171,26 +181,48 @@ export default {
       this.list.splice(index, 1);
     },
     numTypeCheck(num, id) {
-
       // NaN 是 "number" 类型
       // NaN 不与自身相等
       if (!this.reg.test(num) || num === "") {
         let index = this.list.findIndex(item => {
-          return item.id === id
-        })
-        this.$set(this.list[index], "count", 1)
-        alert("输入的数量只能是数字！")
+          return item.id === id;
+        });
+        this.$set(this.list[index], "count", 1);
+        alert("输入的数量只能是数字！");
       }
+    },
+    handleScroll() {
+      let scrollTop =
+          window.pageYOffset ||
+          document.documentElement.scrollTop ||
+          document.body.scrollTop,
+        offsetTop = this.$refs.computeFooter.offsetTop,
+        shopCartHeight = 228 + 85 * this.list.length
+      console.log(offsetTop)
+      console.log(shopCartHeight)
 
+      if (offsetTop > 680) {
+        this.isFixed = true
+      } else {
+        this.isFixed = false
+        window.removeEventListener("scroll", this.handleScroll)
+
+      }
     }
   }
-}
+};
 </script>
 
 <style lang="scss">
 $primary-color: #ff6700;
 $primary-text-color: #757575;
-
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  height: 2000px;
+}
 .site-header {
   width: 100%;
   height: 100px;
@@ -231,6 +263,7 @@ $primary-text-color: #757575;
   height: 700px;
   padding-top: 38px;
   background-color: #f5f5f5;
+  box-sizing: border-box;
   .container {
     width: 1226px;
     margin: 0 auto;
@@ -303,7 +336,7 @@ $primary-text-color: #757575;
   width: 110px;
 }
 td.all-checked {
-  padding-right: 33px;
+  padding-right: 43px;
   box-sizing: border-box;
 }
 .goods-imgs {
@@ -316,11 +349,21 @@ td.all-checked {
   color: $primary-color;
 }
 .compute-footer {
-  width: 100%;
+  width: 1225.6px;
   overflow: hidden;
   margin-top: 20px;
   background-color: #fff;
   box-sizing: border-box;
+}
+.computeFooterFixed {
+  width: 1226px;
+  position: fixed;
+  left: 50%;
+  margin-left: -613px;
+  bottom: 0;
+  z-index: 20;
+  background-color: #fafafa;
+  box-shadow: 0 -3px 6px rgba(0, 0, 0, 0.1);
 }
 .section-left {
   width: 300px;
@@ -329,13 +372,24 @@ td.all-checked {
   float: left;
   box-sizing: border-box;
   color: $primary-text-color;
-
+  margin-left: 18px;
   a {
     text-decoration: none;
     color: $primary-text-color;
+    margin-right: 10px;
+    &:hover {
+      color: $primary-color;
+    }
   }
   b {
     color: $primary-color;
+    font-size: 14px;
+  }
+  .line-before {
+    &::before {
+      content: " | ";
+      color: #f5f5f5;
+    }
   }
 }
 .section-right {
