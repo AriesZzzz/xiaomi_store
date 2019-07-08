@@ -12,6 +12,35 @@
           <span class="alert-info">温馨提示：产品是否购买成功，以最终下单为准哦，请尽快结算</span>
         </div>
         <div class="topbar-info"></div>
+        <div class="topbar-right">
+          <div class="topbar-user">
+            <a href="#">
+              <span class="user">AriesZzz</span>
+              <span>ˇ</span>
+            </a>
+            <ul class="user-list">
+              <li>
+                <a href="#">个人中心</a>
+              </li>
+              <li>
+                <a href="#">评价晒单</a>
+              </li>
+              <li>
+                <a href="#">我的喜欢</a>
+              </li>
+              <li>
+                <a href="#">小米账号</a>
+              </li>
+              <li>
+                <a href="#">退出登录</a>
+              </li>
+            </ul>
+          </div>
+          <div class="topbar-order-form">
+            <a href="#">|&nbsp;&nbsp;我的订单 </a>
+            
+            </div>
+        </div>
       </div>
     </div>
     <div class="shopcart">
@@ -21,7 +50,7 @@
             <tr>
               <td>
                 <div class="all_checked">
-                  <input type="checkbox" @click="checkAll" v-model="all_checked" />&nbsp;&nbsp;全选
+                  <input type="checkbox" @click="checkAll" v-model="all_checked" />&nbsp;&nbsp;&nbsp;全选
                 </div>
               </td>
               <td></td>
@@ -34,16 +63,16 @@
           </thead>
 
           <tbody>
-            <tr v-for="(item,index) in list" :key="item.id">
+            <tr v-for="(item,index) in shopcart" :key="item.goods_id">
               <td class="all-checked">
                 <input type="checkbox" v-model="checkeds[index]" />
               </td>
               <td class="goods-imgs">
                 <a href="#">
-                  <img src alt="goods" />
+                  <img :src="item.thumb_url" alt="goods" />
                 </a>
               </td>
-              <td>{{ item.name }}</td>
+              <td>{{ item.goods_name }}</td>
               <td>{{ item.price }}</td>
               <td>
                 <div class="more-goods">
@@ -52,7 +81,7 @@
                     type="text"
                     size="4"
                     v-model="item.count"
-                    @blur="numTypeCheck(item.count, item.id)"
+                    @blur="numTypeCheck(item.count, item.goods_id)"
                   />
                   <div @click=" item.count++ ">+</div>
                 </div>
@@ -65,16 +94,16 @@
                 : 0 }}
               </td>
               <td>
-                <a href="#" @click.prevent="del(item.id)" class="delete" title="删除">
+                <a href="#" @click.prevent="del(item.goods_id)" class="delete" title="删除">
                   <span>×</span>
                 </a>
               </td>
             </tr>
           </tbody>
         </table>
-        <div class="compute-footer" :class="{computeFooterFixed: isFixed}" ref="computeFooter">
+        <div class="compute-footer" :class="{ computeFooterFixed: isFixed }" ref="computeFooter">
           <div class="section-left">
-            <a href="#">继续购物</a>
+            <a href="/home">继续购物</a>
             <span class="line-before">
               共
               <b>{{ subtotal }}</b>
@@ -97,6 +126,34 @@
         </div>
       </div>
     </div>
+    <div class="cart-recommend">
+      <div class="container">
+        <h2>
+          <span>买购物车中商品的人还买了</span>
+        </h2>
+        <div class="recommend">
+          <div class="recommend-list">
+            <div class="item" v-for="item in lists" :key="item.goods_id">
+              <a href="#">
+                <img :src="item.thumb_url" alt />
+                <p>
+                  <span class="brand">{{ item.brand }} {{ item.goods_name }}</span>
+                </p>
+              </a>
+              <p class="price-text">
+                <span>{{ item.price }}(元)</span>
+              </p>
+              <p>
+                <span>{{ item.comments }}人好评</span>
+              </p>
+
+              <a href="#">加入购物车</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <template></template>
   </div>
 </template>
 
@@ -107,14 +164,9 @@ export default {
     return {
       id: "",
       name: "",
-      list: [
-        { id: 1, name: "php书籍", price: 34, count: 1 },
-        { id: 2, name: "javaScript书籍", price: 56, count: 1 },
-        { id: 3, name: "C语言书籍", price: 33, count: 1 },
-        { id: 4, name: "MySql书籍", price: 34, count: 1 },
-        { id: 5, name: "jQuery书籍", price: 22, count: 1 },
-        { id: 6, name: "Vue书籍", price: 66, count: 1 }
-      ],
+      shopcart: [],
+      //  {id: 1, name:'php书籍', ctime: new Date(), price: 34, count: 1}
+      lists: [],
       checkeds: [],
       all_checked: false,
       reg: /^[0-9]{1,6}$/,
@@ -122,28 +174,48 @@ export default {
       isFixed: false
     };
   },
-  mounted() {
-    window.addEventListener("scroll", this.handleScroll, true);
+  created() {
+    let that = this;
+    this.$http
+      .get("/goods/recommend")
+      .then(function(res) {
+        that.lists = res.data.data;
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+    this.$http
+      .get("/goods/shopcart")
+      .then(function(res) {
+        that.shopcart = res.data.data;
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
   },
-  destroyed() {
-    window.removeEventListener("scroll", this.handleScroll); // 离开页面移除事件监听，否则报错
-  },
+  // mounted() {
+  //   window.addEventListener("scroll", this.handleScroll, true);
+  // },
+  // destroyed() {
+  //   window.removeEventListener("scroll", this.handleScroll); // 离开页面移除事件监听，否则报错
+  // },
   computed: {
     sum() {
       let sum = 0;
-      for (let i in this.list) {
+      for (let i in this.shopcart) {
         if (this.checkeds[i])
           //如果checkeds[i]的结果为true，则进行累加
-          sum += parseInt(this.list[i].price) * parseInt(this.list[i].count);
+          sum +=
+            parseInt(this.shopcart[i].price) * parseInt(this.shopcart[i].count);
       }
       return sum;
     },
 
     count() {
       let count = 0;
-      for (let i in this.list) {
+      for (let i in this.shopcart) {
         if (this.checkeds[i]) {
-          count += parseInt(this.list[i].count);
+          count += parseInt(this.shopcart[i].count);
         }
       }
       return count;
@@ -151,9 +223,9 @@ export default {
 
     subtotal() {
       let subtotal = 0;
-      for (let i in this.list) {
-        if (this.reg.test(this.list[i].count)) {
-          subtotal += parseInt(this.list[i].count);
+      for (let i in this.shopcart) {
+        if (this.reg.test(this.shopcart[i].count)) {
+          subtotal += parseInt(this.shopcart[i].count);
         }
       }
       return subtotal;
@@ -162,53 +234,53 @@ export default {
   methods: {
     checkAll() {
       if (this.all_checked) {
-        for (let i = 0; i < this.list.length; i++) {
+        for (let i = 0; i < this.shopcart.length; i++) {
           //此处必须用$set设置，才能触发视图更新！
           this.$set(this.checkeds, i, false);
         }
       } else {
-        for (let i = 0; i < this.list.length; i++) {
+        for (let i = 0; i < this.shopcart.length; i++) {
           this.$set(this.checkeds, i, true);
         }
       }
     },
     del(id) {
-      let index = this.list.findIndex(item => {
-        if (item.id === id) {
+      let index = this.shopcart.findIndex(item => {
+        if (item.goods_id === id) {
           return true;
         }
       });
-      this.list.splice(index, 1);
+      // this.shopcart.splice(index, 1);
+      this.shopcart.splice(index, 1);
     },
     numTypeCheck(num, id) {
       // NaN 是 "number" 类型
       // NaN 不与自身相等
       if (!this.reg.test(num) || num === "") {
-        let index = this.list.findIndex(item => {
-          return item.id === id;
+        let index = this.shopcart.findIndex(item => {
+          return item.goods_id === id;
         });
-        this.$set(this.list[index], "count", 1);
+        this.$set(this.shopcart[index], "count", 1);
         alert("输入的数量只能是数字！");
       }
-    },
-    handleScroll() {
-      let scrollTop =
-          window.pageYOffset ||
-          document.documentElement.scrollTop ||
-          document.body.scrollTop,
-        offsetTop = this.$refs.computeFooter.offsetTop,
-        shopCartHeight = 228 + 85 * this.list.length
-      console.log(offsetTop)
-      console.log(shopCartHeight)
-
-      if (offsetTop > 680) {
-        this.isFixed = true
-      } else {
-        this.isFixed = false
-        window.removeEventListener("scroll", this.handleScroll)
-
-      }
     }
+    // handleScroll() {
+    //   let scrollTop =
+    //       window.pageYOffset ||
+    //       document.documentElement.scrollTop ||
+    //       document.body.scrollTop,
+    //     offsetTop = this.$refs.computeFooter.offsetTop,
+    //     shopCartHeight = 228 + 85 * this.list.length
+    //   console.log(offsetTop)
+    //   console.log(shopCartHeight)
+
+    //   if (offsetTop > 680) {
+    //     this.isFixed = true
+    //   } else {
+    //     this.isFixed = false
+
+    //   }
+    // }
   }
 };
 </script>
@@ -220,9 +292,7 @@ $primary-text-color: #757575;
   margin: 0;
   padding: 0;
 }
-body {
-  height: 2000px;
-}
+
 .site-header {
   width: 100%;
   height: 100px;
@@ -258,9 +328,56 @@ body {
 .topbar-info {
   float: right;
 }
+.topbar-right {
+  font-size: 12px;
+  float: right !important;
+  width: 180px;
+  line-height: 48px;
+}
+.topbar-user {
+  width: 120px;
+  height: 40px;
+  position: relative;
+  cursor: pointer;
+  &:hover {
+    color: $primary-color;
+    .user-list {
+      display: block;
+    }
+  }
+}
+.topbar-order-form {
+  width: 58px;
+  height: 40px;
+}
+.user-list {
+  display: none;
+  position: absolute;
+  top: 40px;
+  background-color: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s linear;
+  li {
+    width: 120px;
+    height: 30px;
+    list-style: none;
+    color: $primary-text-color;
+    cursor: pointer;
+    line-height: 32px;
+    &:hover {
+      background-color: #f5f5f5;
+      color: $primary-color;
+    }
+  }
+}
+.topbar-right {
+  a {
+    text-decoration: none;
+    color: #757575;
+  }
+}
 .shopcart {
   width: 100%;
-  height: 700px;
   padding-top: 38px;
   background-color: #f5f5f5;
   box-sizing: border-box;
@@ -280,7 +397,7 @@ body {
   }
   tbody {
     tr {
-      height: 85px;
+      height: 110px;
       td {
         border-top: 1px solid #e0e0e0;
       }
@@ -417,6 +534,100 @@ td.all-checked {
   line-height: 54px;
   font-size: 18px;
   margin-left: 48px;
+}
+.cart-recommend {
+  width: 100%;
+  height: 800px;
+  overflow: hidden;
+  background-color: #f5f5f5;
+  padding-top: 60px;
+  box-sizing: border-box;
+  .container {
+    width: 1226px;
+    height: 100%;
+    margin: 0 auto;
+    margin-top: 20px;
+
+    h2 {
+      color: $primary-text-color;
+      width: 1226px;
+      height: 50px;
+      border-top: 1px solid #e0e0e0;
+      font-size: 30px;
+      font-weight: 400;
+      position: relative;
+      span {
+        position: absolute;
+        top: -20px;
+        left: 372px;
+        height: 40px;
+        width: 482px;
+        line-height: 40px;
+        text-align: center;
+        display: block;
+        background-color: #f5f5f5;
+      }
+    }
+  }
+}
+.item {
+  width: 234px;
+  height: 300px;
+  float: left;
+  margin-bottom: 26px;
+  background-color: #fff;
+  transition: all 0.2s linear;
+  padding: 40px 20px 0;
+  box-sizing: border-box;
+  &:hover {
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    transform: scale(1.1);
+    a:last-child {
+      display: block;
+      color: $primary-color;
+      width: 121px;
+      height: 29px;
+      border: 1px solid $primary-color;
+      margin: 10px auto 0;
+      font-size: 12px;
+      line-height: 30px;
+      text-align: center;
+      transition: all 0.2s linear;
+    }
+    .price-text + p {
+      display: none;
+    }
+  }
+  > a {
+    text-decoration: none;
+    &:last-child {
+      display: none;
+      &:hover {
+        background-color: $primary-color;
+        color: #fff;
+      }
+    }
+  }
+  img {
+    width: 140px;
+    height: 140px;
+  }
+  &:nth-child(1),
+  &:nth-child(6) {
+    ~ div {
+      margin-left: 14px;
+    }
+  }
+  &:nth-child(6) {
+    margin-left: 0 !important;
+  }
+  p {
+    color: #757575;
+    line-height: 30px;
+  }
+}
+.price-text {
+  color: $primary-color !important;
 }
 </style>
 
