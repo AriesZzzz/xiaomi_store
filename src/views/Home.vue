@@ -1,21 +1,33 @@
 <template>
   <div class="home">
+
     <div id="nav">
       <router-link to="/home">首页</router-link> | 
       <router-link to="/home/catogery">分类</router-link> | 
       <router-link to="/personal" v-if="isLogin">个人中心</router-link>
       <router-link to="/login" v-else>登录</router-link>
     </div>
-    
+    <Nav></Nav>
+    <Carousel></Carousel>
+    <Findmore></Findmore>
+    <!-- <Asidebar></Asidebar> -->
+
     <!-- 嵌套子路由 -->
     <router-view />
   </div>
 </template>
 
 <script>
-
+import Carousel from '../components/Carousel'
+import Findmore from '../components/Findmore'
+import Nav from '../components/Nav'
 export default {
   name: 'home',
+  components: {
+    Carousel,
+    Findmore,
+    Nav
+  },
   data() {
     return {
       isLogin: false
@@ -32,7 +44,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   #nav {
     padding: 30px;
   }

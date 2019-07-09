@@ -165,13 +165,12 @@ export default {
       id: "",
       name: "",
       shopcart: [],
-      //  {id: 1, name:'php书籍', ctime: new Date(), price: 34, count: 1}
       lists: [],
       checkeds: [],
       all_checked: false,
       reg: /^[0-9]{1,6}$/,
       scrollTop: null,
-      isFixed: false
+      isFixed: false // 设置购物车底部是否固定
     };
   },
   created() {
@@ -249,9 +248,8 @@ export default {
         if (item.goods_id === id) {
           return true;
         }
-      });
-      // this.shopcart.splice(index, 1);
-      this.shopcart.splice(index, 1);
+      })
+      this.shopcart.splice(index, 1)
     },
     numTypeCheck(num, id) {
       // NaN 是 "number" 类型

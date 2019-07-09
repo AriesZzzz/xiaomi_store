@@ -144,7 +144,7 @@
         </li>
       </ul>
     </div>
-
+    
   </div>
 </template>
 <script>
@@ -170,11 +170,12 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .banner {
   width: 1226px;
   margin: 0 auto;
   font-size: 14px;
+  margin-top: -518px;
 }
 .site-category {
   width: 234px;

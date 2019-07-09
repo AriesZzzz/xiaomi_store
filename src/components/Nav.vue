@@ -1,7 +1,7 @@
 <template>
   <div class="nav">
     <div class="nav-right">
-      <img class="nav-icon" src="../assets/logo.jpg" alt="icon" />
+      <img class="nav-icon" src="../../public/icon.png" alt="icon" />
     </div>
 
     <div class="nav-center">
@@ -32,14 +32,14 @@
           </a>
           <div class="item-children">
             <ul class="children-list">
-              <li class="children-item" v-for="i in lists" :key="i.goods_id">
+              <li class="children-item" v-for="i in goods" :key="i.goodsId">
                 <div class="thumb">
                   <a href="#">
-                    <img :src="i.thumb_url" alt="小米cc" />
+                    <img :src="i.url" alt="小米cc" />
                   </a>
                 </div>
                 <div class="title">
-                  <a href="#">{{i.goods_name}}</a>
+                  <a href="#">{{i.goodsName}}</a>
                 </div>
                 <p class="price">{{i.price}}</p>
               </li>
@@ -158,10 +158,19 @@
         </li>
       </ul>
     </div>
+    <div class="nav-search">
+      <form class="search-form" action="#" method="get">
+        <input type="search" class="search-text box-color" autocomplete="off" />
+        <div class="icon-submit">
+          <i class="iconfont icon-mendian"></i>
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 
 <script>
+import goods from "../data/goods.js";
 export default {
   name: "nav",
   data() {
@@ -169,28 +178,21 @@ export default {
     return {
       //必须返回一个对象
       //默认情况下，设置为空数据
-      lists: []
+      goods: []
     };
   },
   //生命周期：代表当组件进入到某一个阶段时会执行的函数
   created() {
     //初始化，一般在这个阶段获取服务器的数据
 
-    let that = this;
-    this.$http
-      .get("/goods/recommend")
-      .then(function(res) {
-        that.lists = res.data.data;
-      })
-      .catch(function(err) {
-        console.log(err);
-      });
+    //模拟获取数据
+    this.goods = goods;
   },
   methods: {}
 };
 </script>
 
-<style>
+<style scoped>
 li,
 a {
   text-decoration: none;
@@ -200,12 +202,13 @@ a {
   width: 100%;
   height: 100px;
   position: relative;
+  background-color: white;
   /* padding-left:146.6px; */
 }
 .nav-right {
   float: left;
   width: 62px;
-  margin: 22px 146.6px;
+  margin: 22px 111.6px;
 }
 .nav-icon {
   /* position: relative; */
@@ -226,7 +229,7 @@ a {
   float: left;
   box-sizing: border-box;
   padding: 0 0 0 30px;
-  front-size: 16px;
+  font-size: 16px;
 }
 .nav-item {
   width: 86px;
@@ -243,16 +246,72 @@ a {
   color: #333;
   text-decoration: none;
 }
+.search-form {
+  width: 271px;
+  height: 50px;
+  float: left;
+  top: 20px;
+  position: relative;
+}
+.search-text {
+  width: 218px;
+  height: 50px;
+  outline: none;
+  border: 1px solid #e0e0e0;
+  font-size: 14px;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  float: left;
+  box-sizing: border-box;
+  padding-left: 15px;
+}
+.search-icon {
+  width: 200px;
+  /* height: 200px; */
+  /* right: 0; */
+  outline: none;
+  padding: 0;
+  background-color: rgba(255, 255, 255, 0);
+  /* position: relative; */
+  z-index: 10;
+}
+.icon-submit {
+  width: 50px;
+  height: 50px;
+  float: left;
+  border: 1px solid #e0e0e0;
+  cursor: pointer;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  box-sizing: border-box;
+  padding: 10px;
+}
+.icon-submit:hover {
+  background-color: #ff6700;
+  color: #fff;
+}
+.icon-submit i {
+  font-size: 28px;
+}
+.box-color:hover {
+  border: 1px solid darkgray;
+}
+
+.box-color:focus {
+  border: 1px solid orangered;
+}
 .item-children {
   display: none;
   position: absolute;
-  height: 300px;
+  height: 200px;
   width: 100%;
   top: 100px;
   left: 0;
+  background-color: white;
   padding: 12px 0 0 0px;
   box-sizing: border-box;
   border-top: 1px solid #5e5e5e;
+  z-index: 12;
   /* padding: 10px 0 0 50px; */
 }
 .children-list {

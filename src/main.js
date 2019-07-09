@@ -2,6 +2,7 @@ import Vue from 'vue' // ES6 模块引入
 import App from './App.vue'
 import router from './router'
 import axios from 'axios'
+import iconfont from './assets/iconfont/iconfont.css'
 
 // 统一设置服务器地址
 axios.defaults.baseURL = 'http://127.0.0.1:3000'

@@ -44,24 +44,9 @@ var router =  new Router({
       }
     },
     {
-      path: '/asidebar',
-      name: 'asidebar',
-      component: () => import('./components/Asidebar.vue')
-    },
-    {
-      path: '/findmore',
-      name: 'findmore',
-      component: () => import('./components/Findmore.vue')
-    },
-    {
       path: '/shoppingcar',
       name: 'shopping-car',
       component: () => import('./views/ShoppingCar.vue')
-    },
-    {
-      path: '/carousel',
-      name: 'carousel',
-      component: () => import('./components/Carousel.vue')
     },
     {
       path: '*',

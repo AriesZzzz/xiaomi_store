@@ -51,4 +51,6 @@
 .goods-head-right {
   float: left;
 }
+item:nth-child(1)
+item:nth-child(5)
 </style>

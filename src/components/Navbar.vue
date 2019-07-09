@@ -75,7 +75,7 @@
 <script>
 </script>
 
-<style>
+<style scoped>
     *{
     overflow-x: hidden;
 }

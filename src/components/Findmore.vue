@@ -45,7 +45,7 @@ export default {
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .find-more {
   background-color: #f5f5f5;
   height: 700px;
