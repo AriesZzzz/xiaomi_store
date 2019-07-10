@@ -1,7 +1,9 @@
 <template>
   <div class="nav">
     <div class="nav-right">
-      <img class="nav-icon" src="../../public/icon.png" alt="icon" />
+      <img class="nav-icon"
+           src="../../public/icon.png"
+           alt="icon" />
     </div>
 
     <div class="nav-center">
@@ -12,10 +14,13 @@
           </a>
           <div class="item-children">
             <ul class="children-list">
-              <li class="children-item" v-for="i in goods" :key="i.goodsId">
+              <li class="children-item"
+                  v-for="i in goods"
+                  :key="i.goodsId">
                 <div class="thumb">
                   <a href="#">
-                    <img :src="i.url" alt="小米cc" />
+                    <img :src="i.url"
+                         alt="小米cc" />
                   </a>
                 </div>
                 <div class="title">
@@ -32,10 +37,13 @@
           </a>
           <div class="item-children">
             <ul class="children-list">
-              <li class="children-item" v-for="i in goods" :key="i.goodsId">
+              <li class="children-item"
+                  v-for="i in goods"
+                  :key="i.goodsId">
                 <div class="thumb">
                   <a href="#">
-                    <img :src="i.url" alt="小米cc" />
+                    <img :src="i.url"
+                         alt="小米cc" />
                   </a>
                 </div>
                 <div class="title">
@@ -52,10 +60,13 @@
           </a>
           <div class="item-children">
             <ul class="children-list">
-              <li class="children-item" v-for="i in goods" :key="i.goodsId">
+              <li class="children-item"
+                  v-for="i in goods"
+                  :key="i.goodsId">
                 <div class="thumb">
                   <a href="#">
-                    <img :src="i.url" alt="小米cc" />
+                    <img :src="i.url"
+                         alt="小米cc" />
                   </a>
                 </div>
                 <div class="title">
@@ -72,10 +83,13 @@
           </a>
           <div class="item-children">
             <ul class="children-list">
-              <li class="children-item" v-for="i in goods" :key="i.goodsId">
+              <li class="children-item"
+                  v-for="i in goods"
+                  :key="i.goodsId">
                 <div class="thumb">
                   <a href="#">
-                    <img :src="i.url" alt="小米cc" />
+                    <img :src="i.url"
+                         alt="小米cc" />
                   </a>
                 </div>
                 <div class="title">
@@ -92,10 +106,13 @@
           </a>
           <div class="item-children">
             <ul class="children-list">
-              <li class="children-item" v-for="i in goods" :key="i.goodsId">
+              <li class="children-item"
+                  v-for="i in goods"
+                  :key="i.goodsId">
                 <div class="thumb">
                   <a href="#">
-                    <img :src="i.url" alt="小米cc" />
+                    <img :src="i.url"
+                         alt="小米cc" />
                   </a>
                 </div>
                 <div class="title">
@@ -112,10 +129,13 @@
           </a>
           <div class="item-children">
             <ul class="children-list">
-              <li class="children-item" v-for="i in goods" :key="i.goodsId">
+              <li class="children-item"
+                  v-for="i in goods"
+                  :key="i.goodsId">
                 <div class="thumb">
                   <a href="#">
-                    <img :src="i.url" alt="小米cc" />
+                    <img :src="i.url"
+                         alt="小米cc" />
                   </a>
                 </div>
                 <div class="title">
@@ -132,10 +152,13 @@
           </a>
           <div class="item-children">
             <ul class="children-list">
-              <li class="children-item" v-for="i in goods" :key="i.goodsId">
+              <li class="children-item"
+                  v-for="i in goods"
+                  :key="i.goodsId">
                 <div class="thumb">
                   <a href="#">
-                    <img :src="i.url" alt="小米cc" />
+                    <img :src="i.url"
+                         alt="小米cc" />
                   </a>
                 </div>
                 <div class="title">
@@ -159,10 +182,14 @@
       </ul>
     </div>
     <div class="nav-search">
-      <form class="search-form" action="#" method="get">
-        <input type="search" class="search-text box-color" autocomplete="off" />
+      <form class="search-form"
+            action="#"
+            method="get">
+        <input type="search"
+               class="search-text box-color"
+               autocomplete="off" />
         <div class="icon-submit">
-          <i class="iconfont icon-mendian"></i>
+          <i class="iconfont icon-sousuo"></i>
         </div>
       </form>
     </div>
@@ -172,7 +199,7 @@
 <script>
 import goods from "../data/goods.js";
 export default {
-  name: "nav",
+  name: "navlist",
   data() {
     //数据中心
     return {
@@ -203,12 +230,13 @@ a {
   height: 100px;
   position: relative;
   background-color: white;
-  /* padding-left:146.6px; */
+  margin-bottom: 34px;
 }
 .nav-right {
   float: left;
   width: 62px;
-  margin: 22px 111.6px;
+  padding-left: 138px;
+  padding-top: 16px;
 }
 .nav-icon {
   /* position: relative; */
@@ -245,6 +273,7 @@ a {
   padding: 19px 0px 40px;
   color: #333;
   text-decoration: none;
+  line-height: 52px;
 }
 .search-form {
   width: 271px;
@@ -303,40 +332,44 @@ a {
 .item-children {
   display: none;
   position: absolute;
-  height: 200px;
+  height: 230px;
   width: 100%;
   top: 100px;
   left: 0;
   background-color: white;
-  padding: 12px 0 0 0px;
   box-sizing: border-box;
-  border-top: 1px solid #5e5e5e;
+  border-top: 1px solid #e0e0e0;
   z-index: 12;
-  /* padding: 10px 0 0 50px; */
 }
 .children-list {
-  width: 1000px;
+  width: 1224px;
   height: 200px;
-  margin: 0px auto;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 0 auto;
+  padding-inline-start: 0;
+}
+.children-list li:first-child .thumb {
+  border-left: 0;
 }
 .children-item {
-  width: 160px;
-  height: 160px;
+  width: 204px;
+  height: 201px;
+  padding: 35px 0 0 0;
   float: left;
+  margin: 0 auto;
   box-sizing: border-box;
 }
 .thumb {
-  width: 160px;
-  height: 100px;
-  border-right: 1px solid darkgray;
+  width: 204px;
+  height: 115px;
+  margin: 0 auto;
+  border-left: 1px solid #e0e0e0;
+  /* border-right: 1px solid darkgray */
 }
 .nav-item img {
-  width: 110px;
-  height: 100px;
-}
-.title,
-.children-item p {
-  margin: 5px auto;
+  width: 120px;
+  height: 115px;
 }
 .link:hover {
   color: orangered;

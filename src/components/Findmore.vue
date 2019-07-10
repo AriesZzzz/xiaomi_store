@@ -13,11 +13,16 @@
         </div>
       </div>
       <div class="goods-item">
-        <div class="item" v-for="item in lists" :key="item.goods_id">
+        <div class="item"
+             v-for="item in lists"
+             :key="item.goods_id">
           <span class="flag">新品</span>
-          <a href="#">
-            <img :src="item.thumb_url" alt />
-            <p class="brand">{{ item.brand }} {{ item.goods_name }}</p>
+          <a href="#"
+             class="img_box">
+            <img :src="item.images_url"
+                 alt />
+            <p class="brand">{{ item.goods_name }}</p>
+            <p>{{ item.price}}</p>
           </a>
         </div>
       </div>
@@ -36,10 +41,10 @@ export default {
     let that = this;
     this.$http
       .get("/goods/findmore")
-      .then(function(res) {
+      .then(function (res) {
         that.lists = res.data.data;
       })
-      .catch(function() {
+      .catch(function () {
         console.log(err);
       });
   }
@@ -53,6 +58,15 @@ export default {
 .container {
   width: 1246px;
   margin: 0 auto;
+}
+.img_box {
+  display: block;
+
+  margin: 45px auto 0;
+  img {
+    width: 160px;
+    height: 160px;
+  }
 }
 .goods-title {
   width: 100%;
@@ -84,7 +98,7 @@ export default {
   margin-left: 75px;
   margin-bottom: 26px;
   background-color: #fff;
-  transition: all .2s linear;
+  transition: all 0.2s linear;
   &:hover {
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
     transform: scale(1.1);
@@ -94,11 +108,11 @@ export default {
   }
 }
 .flag {
-    display: inline-block;
-    width: 50px;
-    background-color: #83c44e;
-    font-size: 16px;
-    color: #fff;
+  display: inline-block;
+  width: 50px;
+  background-color: #83c44e;
+  font-size: 16px;
+  color: #fff;
 }
 </style>
 

@@ -4,7 +4,8 @@
       <div class="container">
         <div class="header-logo">
           <a href="#">
-            <img src="../assets/logo.jpg" alt="logo" />
+            <img src="../assets/logo.jpg"
+                 alt="logo" />
           </a>
         </div>
         <div class="header-title">
@@ -37,9 +38,8 @@
             </ul>
           </div>
           <div class="topbar-order-form">
-            <a href="#">|&nbsp;&nbsp;我的订单 </a>
-            
-            </div>
+            <a href="#">|&nbsp;&nbsp;我的订单</a>
+          </div>
         </div>
       </div>
     </div>
@@ -50,7 +50,9 @@
             <tr>
               <td>
                 <div class="all_checked">
-                  <input type="checkbox" @click="checkAll" v-model="all_checked" />&nbsp;&nbsp;&nbsp;全选
+                  <input type="checkbox"
+                         @click="checkAll"
+                         v-model="all_checked" />&nbsp;&nbsp;&nbsp;全选
                 </div>
               </td>
               <td></td>
@@ -63,13 +65,16 @@
           </thead>
 
           <tbody>
-            <tr v-for="(item,index) in shopcart" :key="item.goods_id">
+            <tr v-for="(item,index) in shopcart"
+                :key="item.goods_id">
               <td class="all-checked">
-                <input type="checkbox" v-model="checkeds[index]" />
+                <input type="checkbox"
+                       v-model="checkeds[index]" />
               </td>
               <td class="goods-imgs">
                 <a href="#">
-                  <img :src="item.thumb_url" alt="goods" />
+                  <img :src="item.images_url"
+                       alt="goods" />
                 </a>
               </td>
               <td>{{ item.goods_name }}</td>
@@ -77,12 +82,10 @@
               <td>
                 <div class="more-goods">
                   <div @click=" item.count > 1 ? item.count-- : item.count =1">-</div>
-                  <input
-                    type="text"
-                    size="4"
-                    v-model="item.count"
-                    @blur="numTypeCheck(item.count, item.goods_id)"
-                  />
+                  <input type="text"
+                         size="4"
+                         v-model="item.count"
+                         @blur="numTypeCheck(item.count, item.goods_id)" />
                   <div @click=" item.count++ ">+</div>
                 </div>
               </td>
@@ -94,14 +97,19 @@
                 : 0 }}
               </td>
               <td>
-                <a href="#" @click.prevent="del(item.goods_id)" class="delete" title="删除">
+                <a href="#"
+                   @click.prevent="del(item.goods_id)"
+                   class="delete"
+                   title="删除">
                   <span>×</span>
                 </a>
               </td>
             </tr>
           </tbody>
         </table>
-        <div class="compute-footer" :class="{ computeFooterFixed: isFixed }" ref="computeFooter">
+        <div class="compute-footer"
+             :class="{ computeFooterFixed: isFixed }"
+             ref="computeFooter">
           <div class="section-left">
             <a href="/home">继续购物</a>
             <span class="line-before">
@@ -121,7 +129,8 @@
               <b>{{ sum }}</b>
               (元)
             </span>
-            <a href="#" class="btn-primary">结算</a>
+            <a href="#"
+               class="btn-primary">结算</a>
           </div>
         </div>
       </div>
@@ -133,9 +142,12 @@
         </h2>
         <div class="recommend">
           <div class="recommend-list">
-            <div class="item" v-for="item in lists" :key="item.goods_id">
+            <div class="item"
+                 v-for="item in lists"
+                 :key="item.goods_id">
               <a href="#">
-                <img :src="item.thumb_url" alt />
+                <img :src="item.images_url"
+                     alt />
                 <p>
                   <span class="brand">{{ item.brand }} {{ item.goods_name }}</span>
                 </p>
@@ -153,13 +165,17 @@
         </div>
       </div>
     </div>
-    <template></template>
+    <Footerfix></Footerfix>
   </div>
 </template>
 
 <script>
+import Footerfix from '../components/Footer'
 export default {
   name: "shopping-car",
+  components: {
+    Footerfix
+  },
   data() {
     return {
       id: "",
@@ -177,18 +193,18 @@ export default {
     let that = this;
     this.$http
       .get("/goods/recommend")
-      .then(function(res) {
+      .then(function (res) {
         that.lists = res.data.data;
       })
-      .catch(function(err) {
+      .catch(function (err) {
         console.log(err);
       });
     this.$http
       .get("/goods/shopcart")
-      .then(function(res) {
+      .then(function (res) {
         that.shopcart = res.data.data;
       })
-      .catch(function(err) {
+      .catch(function (err) {
         console.log(err);
       });
   },
@@ -248,8 +264,9 @@ export default {
         if (item.goods_id === id) {
           return true;
         }
-      })
-      this.shopcart.splice(index, 1)
+      });
+      this.checkeds.splice(index, 1);
+      this.shopcart.splice(index, 1);
     },
     numTypeCheck(num, id) {
       // NaN 是 "number" 类型

@@ -5,14 +5,15 @@ import List from './views/List.vue'
 
 Vue.use(Router)
 
-var router =  new Router({
-  mode: 'history', 
+var router = new Router({
+  mode: 'history',
   base: process.env.BASE_URL, // 取消地址栏显示 hash #
-  routes: [ // 路由配置信息
+  routes: [
+    // 路由配置信息
     {
       path: '/login',
       name: 'login',
-      component: ()=> import('./views/Login.vue')
+      component: () => import('./views/Login.vue')
     },
     {
       path: '/home',
@@ -22,11 +23,6 @@ var router =  new Router({
           path: '',
           name: 'list',
           component: List
-        },
-        {
-          path: 'catogery',
-          name: 'catogery',
-          component: () => import('./views/Catogery.vue')
         },
         {
           path: 'goods',
@@ -39,7 +35,8 @@ var router =  new Router({
       path: '/personal',
       name: 'personal',
       component: () => import('./views/Personal.vue'),
-      meta: { // 自定义规则
+      meta: {
+        // 自定义规则
         auth: true // 设置为true的路由是需要权限的
       }
     },
@@ -49,28 +46,32 @@ var router =  new Router({
       component: () => import('./views/ShoppingCar.vue')
     },
     {
+      path: '/detailleaf',
+      name: 'detailleaf',
+      component: () => import('./views/Detailleaf.vue')
+    },
+    {
       path: '*',
       redirect: '/home' // 其他未定义的路由重定向到 home 页
     }
   ]
 })
 
-
 // 前端路由拦截
 
-router.beforeEach(function (to, from, next) {
+router.beforeEach(function(to, from, next) {
   // 获取 token
   let token = localStorage.getItem('token')
 
   // 判断即将访问的路由是否需要权限
-  if(to.meta.auth) {
-    if(token) {
-    next()
+  if (to.meta.auth) {
+    if (token) {
+      next()
     } else {
       next({
         path: '/login',
         query: {
-          redirect: to.fullPath //将要跳转的路由作为参数，登陆成功后直接跳转到该路由
+          redirect: to.fullPath // 将要跳转的路由作为参数，登陆成功后直接跳转到该路由
         }
       })
     }

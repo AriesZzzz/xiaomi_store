@@ -1,172 +1,57 @@
 <template>
   <div class="carousel">
-    <div class="cmain" ref="main">
+    <div class="cmain"
+         ref="main">
       <!--图片盒子-->
       <div class="cbanner">
-        <a href="javascript:" v-for=" (item, index) in images" :key="index">
+        <a href="javascript:"
+           v-for=" (item, index) in images"
+           :key="index">
           <!--设置div背景图片实现插入图片效果，而不是img标签，提高浏览器性能-->
-          <div
-            class="cbanner-slide"
-            :style="{ backgroundImage: `url(${item})`}"
-            @mouseover="mouseOver()"
-            @mouseout="mouseOut(index)"
-            ref="slide_img"
-          ></div>
+          <div class="cbanner-slide"
+               :style="{ backgroundImage: `url( ${item} )`}"
+               @mouseover="mouseOver()"
+               @mouseout="mouseOut(index)"
+               ref="slide_img"></div>
         </a>
       </div>
       <!--切换按钮-->
-      <a href="javascript:void(0)" class="button prev" ref="prev" @click="toPrev"></a>
-      <a href="javascript:void(0)" class="button next" ref="next" @click="toNext"></a>
+      <a href="javascript:void(0)"
+         class="button prev"
+         ref="prev"
+         @click="toPrev"></a>
+      <a href="javascript:void(0)"
+         class="button next"
+         ref="next"
+         @click="toNext"></a>
       <div class="dots">
-        <span
-          v-for=" (item, index) in dots"
-          :key="index"
-          @click="dotsChecked(index)"
-          ref="dots"
-          :class="index === 0 ? { dots_active } : '' "
-        ></span>
+        <span v-for=" (item, index) in dots"
+              :key="index"
+              @click="dotsChecked(index)"
+              ref="dots"
+              :class="index === 0 ? { dots_active } : '' "></span>
       </div>
     </div>
     <div class="banner">
       <div class="site-category">
         <ul>
-          <li class="category-item">
+          <li class="category-item"
+              v-for="i in category"
+              :key="i.category_id"
+              @mouseover="httpRequest(i.category_id)">
             <a>
-              手机 电话卡
+              {{ i.category_name }}
               <span>></span>
             </a>
             <div class="nav-children">
-              <div class="item" v-for="item in lists" :key="item.goods_id">
-                <a href="#">
-                  <img :src="item.thumb_url" alt />
-                  <span class="brand">{{ item.brand }} {{ item.goods_name }}</span>
-                </a>
-              </div>
-            </div>
-          </li>
-          <li class="category-item">
-            <a>
-              电视 盒子
-              <span>></span>
-            </a>
-            <div class="nav-children">
-              <div class="item" v-for="item in lists" :key="item.goods_id">
-                <a href="#">
-                  <img :src="item.thumb_url" alt />
-                  <span class="brand">{{ item.brand }} {{ item.goods_name }}</span>
-                </a>
-              </div>
-            </div>
-          </li>
-          <li class="category-item">
-            <a>
-              笔记本 平板
-              <span>></span>
-            </a>
-            <div class="nav-children">
-              <div class="item" v-for="item in lists" :key="item.goods_id">
-                <a href="#">
-                  <img :src="item.thumb_url" alt />
-                  <span class="brand">{{ item.brand }} {{ item.goods_name }}</span>
-                </a>
-              </div>
-            </div>
-          </li>
-          <li class="category-item">
-            <a>
-              家电 插线板
-              <span>></span>
-            </a>
-            <div class="nav-children">
-              <div class="item" v-for="item in lists" :key="item.goods_id">
-                <a href="#">
-                  <img :src="item.thumb_url" alt />
-                  <span class="brand">{{ item.brand }} {{ item.goods_name }}</span>
-                </a>
-              </div>
-            </div>
-          </li>
-          <li class="category-item">
-            <a>
-              出行 穿戴
-              <span>></span>
-            </a>
-            <div class="nav-children">
-              <div class="item" v-for="item in lists" :key="item.goods_id">
-                <a href="#">
-                  <img :src="item.thumb_url" alt />
-                  <span class="brand">{{ item.brand }} {{ item.goods_name }}</span>
-                </a>
-              </div>
-            </div>
-          </li>
-          <li class="category-item">
-            <a>
-              智能 路由器
-              <span>></span>
-            </a>
-            <div class="nav-children">
-              <div class="item" v-for="item in lists" :key="item.goods_id">
-                <a href="#">
-                  <img :src="item.thumb_url" alt />
-                  <span class="brand">{{ item.brand }} {{ item.goods_name }}</span>
-                </a>
-              </div>
-            </div>
-          </li>
-          <li class="category-item">
-            <a>
-              电源 配件
-              <span>></span>
-            </a>
-            <div class="nav-children">
-              <div class="item" v-for="item in lists" :key="item.goods_id">
-                <a href="#">
-                  <img :src="item.thumb_url" alt />
-                  <span class="brand">{{ item.brand }} {{ item.goods_name }}</span>
-                </a>
-              </div>
-            </div>
-          </li>
-          <li class="category-item">
-            <a>
-              健康 儿童
-              <span>></span>
-            </a>
-            <div class="nav-children">
-              <div class="item" v-for="item in lists" :key="item.goods_id">
-                <a href="#">
-                  <img :src="item.thumb_url" alt />
-                  <span class="brand">{{ item.brand }} {{ item.goods_name }}</span>
-                </a>
-              </div>
-            </div>
-          </li>
-          <li class="category-item">
-            <a>
-              耳机 音箱
-              <span>></span>
-            </a>
-            <div class="nav-children">
-              <div class="item" v-for="item in lists" :key="item.goods_id">
-                <a href="#">
-                  <img :src="item.thumb_url" alt />
-                  <span class="brand">{{ item.brand }} {{ item.goods_name }}</span>
-                </a>
-              </div>
-            </div>
-          </li>
-          <li class="category-item">
-            <a>
-              生活 箱包
-              <span>></span>
-            </a>
-            <div class="nav-children">
-              <div class="item" v-for="item in lists" :key="item.goods_id">
-                <a href="#">
-                  <img :src="item.thumb_url" alt />
-                  <span class="brand">{{ item.brand }} {{ item.goods_name }}</span>
-                </a>
+              <div class="item"
+                   v-for="item in lists"
+                   :key="item.goods_id">
+                <router-link :to="'/detailleaf?goods_id=' + item.goods_id">
+                  <img :src="item.images_url"
+                       alt />
+                  <span class="brand">{{ item.goods_name }}</span>
+                </router-link>
               </div>
             </div>
           </li>
@@ -190,29 +75,32 @@ export default {
       ],
       dots: [0, 1, 2],
       dots_active: true,
-      lists: []
+      lists: [],
+      slide_active: false,
+      category: []
     };
   },
   created() {
-    this.mouseOut(this.index);
-    let that = this;
+    this.mouseOut(this.index)
+    let that = this
+
     this.$http
-      .get("/goods/category")
-      .then(function(res) {
-        that.lists = res.data.data;
+      .get("/goods/categorylist")
+      .then(function (res) {
+        that.category = res.data.data
       })
-      .catch(function(err) {
-        console.log(err);
-      });
+      .catch(function (err) {
+        console.log(err)
+      })
   },
   methods: {
     changeImg(index) {
       for (let i = 0; i < this.images.length; i++) {
-        this.$refs.slide_img[i].style.display = "none";
-        this.$refs.dots[i].className = " ";
+        this.$refs.slide_img[i].className = "cbanner-slide"
+        this.$refs.dots[i].className = " "
       }
 
-      this.$refs.slide_img[index].style.display = "block";
+      this.$refs.slide_img[index].className = "cbanner-slide slide_active";
       this.$refs.dots[index].className = "dots_active";
     },
     mouseOver() {
@@ -220,7 +108,7 @@ export default {
     },
     mouseOut(index) {
       let that = this;
-      this.timer = setInterval(function() {
+      this.timer = setInterval(function () {
         index++;
         if (index >= that.images.length) {
           index = 0;
@@ -241,12 +129,23 @@ export default {
     },
     dotsChecked(index) {
       for (let i = 0; i < this.images.length; i++) {
-        this.$refs.dots[i].className = " ";
+        this.$refs.dots[i].className = " "
       }
-      this.changeImg(index);
+      this.changeImg(index)
+    },
+    httpRequest(id) {
+      let that = this
+      this.$http
+        .get("/goods/category?category_id=" + id)
+        .then(function (res) {
+          that.lists = res.data.data
+        })
+        .catch(function (err) {
+          console.log(err)
+        })
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -276,6 +175,10 @@ export default {
   background-position: center center;
   background-size: 100% 100%;
   position: absolute;
+  display: none;
+}
+.slide_active {
+  display: block;
 }
 .button {
   width: 40px;
@@ -321,7 +224,7 @@ export default {
   font-size: 14px;
   position: absolute;
   top: 0;
-  left: 138px;
+  left: 147px;
 }
 .site-category {
   width: 234px;

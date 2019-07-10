@@ -3,12 +3,14 @@
     <div class="h-pannel">
       <div class="h-logo">
         <a href="#">
-          <img src="../../public/login-logo.png" alt="logo" />
+          <img src="../../public/login-logo.png"
+               alt="logo" />
         </a>
       </div>
     </div>
     <div class="layout-pannel">
-      <a class="hot-bg" href="#">
+      <a class="hot-bg"
+         href="#">
         <div class="layout-pannel layout-bg"></div>
       </a>
       <div class="layout">
@@ -20,36 +22,40 @@
               </a>
             </div>
             <div class="login-area">
-              <form class="login-mainform" action method="get">
+              <form class="login-mainform"
+                    action
+                    method="get">
                 <div class="inputbox">
-                  <input
-                    class="item_account"
-                    autocomplete="off"
-                    type="text"
-                    name="user"
-                    id="username"
-                    placeholder="邮箱/手机号码/小米ID"
-                    v-model="username"
-                  />
-                  <input
-                    class="item_account"
-                    type="password"
-                    placeholder="密码"
-                    autocomplete="off"
-                    id="pwd"
-                    name="userpass"
-                    v-model="userpass"
-                  />
-                  <span class="error-info" v-if="seen" style="color: orangered;">{{info}}</span>
+                  <input class="item_account"
+                         autocomplete="off"
+                         type="text"
+                         name="user"
+                         id="username"
+                         placeholder="邮箱/手机号码/小米ID"
+                         v-model="username" />
+                  <input class="item_account"
+                         type="password"
+                         placeholder="密码"
+                         autocomplete="off"
+                         id="pwd"
+                         name="userpass"
+                         v-model="userpass" />
+                  <span class="error-info"
+                        v-if="seen"
+                        style="color: orangered;">{{info}}</span>
                 </div>
 
                 <div class="submitbox">
-                  <a href="#" class="btnadpt" @click="login">登录</a>
+                  <a href="#"
+                     class="btnadpt"
+                     @click="login">登录</a>
                 </div>
                 <div class="other_panel">
-                  <a class="outer-link" href="#">立即注册</a>
+                  <a class="outer-link"
+                     href="#">立即注册</a>
                   <span>|</span>
-                  <a class="outer-link" href="#">忘记密码？</a>
+                  <a class="outer-link"
+                     href="#">忘记密码？</a>
                 </div>
               </form>
             </div>
@@ -62,30 +68,35 @@
 <script>
 export default {
   name: "login",
-  data() {
+  data () {
     return {
       seen: false,
       username: "",
       userpass: "",
       info: ""
-    };
+    }
   },
   methods: {
-    login() {
+    login () {
       var reg = /^\w{3,10}$/;
       var that = this;
       if (!that.username) {
         that.seen = true;
-        that.info = "用户名不能为空！";
+        that.info = "用户名不能为空！"
       } else if (!that.userpass) {
+
+
         that.seen = true;
-        that.info = "密码不能为空！";
+        that.info = "密码不能为空！"
+
+
       } else if (!reg.test(this.username)) {
-        that.seen = true;
-        that.info = "用户名只能为数字！";
+        that.seen = true
+        that.info = "用户名只能为数字！"
+
+
       } else if (that.username || that.userpass || reg.test(this.username)) {
-        that.seen = false;
-        console.log(this.username, this.userpass);
+        that.seen = false
 
         //登录请求
         that.$http
@@ -93,8 +104,7 @@ export default {
             username: that.username,
             userpass: that.userpass
           })
-          .then(function(res) {
-            console.log(res);
+          .then(function (res) {
             if (res.data.state == 3) {
               //保存登陆态
               localStorage.setItem("token", res.data.token);
@@ -109,7 +119,7 @@ export default {
               that.info = "用户名或密码错误!";
             }
           })
-          .catch(function(err) {
+          .catch(function (err) {
             console.log(err);
           });
       }
@@ -136,7 +146,6 @@ a {
   height: 100px;
   padding: 20px 0 0 130px;
   box-sizing: border-box;
-
 }
 .h-logo {
   width: 200px;
@@ -151,8 +160,8 @@ a {
   margin: 0 auto;
   /* background-color: rosybrown; */
 }
-.title a h1{
-  color:orangered;
+.title a h1 {
+  color: orangered;
 }
 .layout-bg {
   background-image: url(../../public/hot-bg.png);
@@ -207,7 +216,6 @@ a {
 }
 .submitbox {
   margin: 8px 0 16px 0;
-
 }
 .btnadpt {
   display: block;
@@ -225,9 +233,9 @@ a {
 }
 .outer-link {
   margin: 20px 4px;
-  color: #ccc; 
+  color: #ccc;
 }
-.other_panel span{
+.other_panel span {
   color: #ccc;
 }
 </style>
