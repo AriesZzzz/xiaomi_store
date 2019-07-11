@@ -87,7 +87,8 @@
               <a href="#">小米账号</a>
             </li>
             <li>
-              <a href="#">退出登录</a>
+              <a href="/home"
+                 @click="exitLogin">退出登录</a>
             </li>
           </ul>
           <div class="isLogin"
@@ -103,12 +104,12 @@
           <router-link to="/personal">我的订单</router-link>
         </div>
         <div class="shopcart">
-          <router-link to="/shoppingcar">
+          <a href="/shoppingcar">
             <div class="shopcaricon">
               <i class="27 iconfont icon-27"></i>购物车
               <span>({{ shopcart_count }})</span>
             </div>
-          </router-link>
+          </a>
           <div class="shopcart-list">购物车中还没有商品，赶紧选购吧！</div>
 
         </div>
@@ -122,10 +123,12 @@
              href="#">
             <p class="shouji iconfont icon-shouji"></p>手机app
           </a></li>
-        <li><a class="nav-link"
-             href="#">
+        <li>
+          <router-link to="/personal"
+                       class="nav-link">
             <p class="gerenzhongxin iconfont icon-gerenzhongxin"></p>个人中心
-          </a></li>
+          </router-link>
+        </li>
         <li><a class="nav-link"
              href="#">
             <p class="shouhoufuwu iconfont icon-shouhoufuwu"></p>售后服务
@@ -134,10 +137,13 @@
              href="#">
             <p class="lianxikefu iconfont icon-lianxikefu"></p>联系客服
           </a></li>
-        <li><a class="nav-link"
-             href="#">
+        <li>
+          <a href="/shoppingcar"
+             class="nav-link">
+
             <p class="27 iconfont icon-27"></p>购物车
-          </a></li>
+          </a>
+        </li>
         <li>
           <a href="#top"
              class="back-to-top">回顶部</a>
@@ -165,7 +171,15 @@ export default {
     } else {
       this.isLogin = false
     }
-  }
+  },
+  methods: {
+    exitLogin() {
+      localStorage.removeItem('token')
+
+      localStorage.removeItem('username')
+
+    }
+  },
 }
 </script>
 

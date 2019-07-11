@@ -80,7 +80,8 @@
           </div>
         </div>
         <div class="buy">
-          <div class="dd">加入购物车</div>
+          <div class="dd"
+               @click="addCar">加入购物车</div>
           <div class="ee">喜欢</div>
         </div>
       </div>
@@ -165,9 +166,13 @@ export default {
         this.$refs.dots[i].className = " ";
       }
       this.changeImg(index);
+    },
+    addCar() {
+      let goods_id = this.$route.query.goods_id
+
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -373,6 +378,7 @@ export default {
   float: left;
   display: inline;
   font-size: 14px;
+  cursor: pointer;
 }
 .ee {
   background-color: #b0b0b0;

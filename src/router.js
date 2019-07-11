@@ -15,6 +15,7 @@ var router = new Router({
       name: 'login',
       component: () => import('./views/Login.vue')
     },
+
     {
       path: '/home',
       component: Home,
@@ -51,6 +52,16 @@ var router = new Router({
       component: () => import('./views/Detailleaf.vue')
     },
     {
+      path: '/register',
+      name: 'register',
+      component: () => import('./views/Register.vue')
+    },
+    {
+      path: '/success',
+      name: 'success',
+      component: () => import('./views/Regsuccess.vue')
+    },
+    {
       path: '*',
       redirect: '/home' // 其他未定义的路由重定向到 home 页
     }
@@ -59,7 +70,7 @@ var router = new Router({
 
 // 前端路由拦截
 
-router.beforeEach(function(to, from, next) {
+router.beforeEach(function (to, from, next) {
   // 获取 token
   let token = localStorage.getItem('token')
 
@@ -79,4 +90,6 @@ router.beforeEach(function(to, from, next) {
     next()
   }
 })
+
+
 export default router

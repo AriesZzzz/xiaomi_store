@@ -144,7 +144,7 @@ export default {
   },
   data() {
     return {
-      username: '',
+      username: 'Aries',
       user_level: '普通',
       useremail: '未绑定',
       userphoto: 'https://account.xiaomi.com/static/img/passport/photo.jpg',

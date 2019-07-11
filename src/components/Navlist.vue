@@ -377,4 +377,9 @@ a {
 .nav-item:hover .item-children {
   display: block;
 }
+.title a {
+  color: orangered;
+  margin-top: 5px;
+  margin-bottom: 8px;
+}
 </style>

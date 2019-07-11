@@ -68,7 +68,7 @@
 <script>
 export default {
   name: "login",
-  data () {
+  data() {
     return {
       seen: false,
       username: "",
@@ -77,7 +77,7 @@ export default {
     }
   },
   methods: {
-    login () {
+    login() {
       var reg = /^\w{3,10}$/;
       var that = this;
       if (!that.username) {
@@ -110,7 +110,7 @@ export default {
               localStorage.setItem("token", res.data.token);
               //如果之前访问过需要权限的路由，则登陆之后跳转到原来访问的路由，否则跳转到首页
               that.$router.push({
-                path: that.$route.query.redirect || "/home"
+                path: that.$route.query.redirect || "/home",
               });
 
               /* that.$router.push('/home') */
